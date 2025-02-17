@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace luca28pet\PortalsPE\session;
 
 use luca28pet\PortalsPE\selection\PartialPortalSelection;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class SessionManager{
 
-    /** @var PlayerSession[] */
-    private $sessions = [];
+    /** @var PlayerSession[] $sessions */
+    private array $sessions = [];
 
     public function initSession(Player $player) : void{
         $this->sessions[$player->getName()] = new PlayerSession(

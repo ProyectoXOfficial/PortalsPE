@@ -4,18 +4,18 @@ declare(strict_types=1);
 namespace luca28pet\PortalsPE\session;
 
 use luca28pet\PortalsPE\selection\PartialPortalSelection;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class PlayerSession{
 
-    /** @var Player */
-    private $player;
-    /** @var PartialPortalSelection */
-    private $selection;
-    /** @var bool */
-    private $selectingFirstBlock;
-    /** @var bool */
-    private $selectingSecondBlock;
+    /** @var Player $player */
+    private Player $player;
+    /** @var PartialPortalSelection $selection */
+    private PartialPortalSelection $selection;
+    /** @var bool $selectingFirstBlock */
+    private bool $selectingFirstBlock;
+    /** @var bool $selectingSecondBlock */
+    private bool $selectingSecondBlock;
 
     public function __construct(Player $player, PartialPortalSelection $selection, bool $selectingFirstBlock, bool $selectingSecondBlock){
         $this->player = $player;

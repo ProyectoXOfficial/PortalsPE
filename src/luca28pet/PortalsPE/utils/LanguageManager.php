@@ -9,10 +9,10 @@ use function str_replace;
 
 class LanguageManager{
 
-    /** @var array  */
-    private $defaultLangData;
-    /** @var array  */
-    private $userLangData;
+    /** @var array $defaultLangData */
+    private array $defaultLangData;
+    /** @var array $userLangData */
+    private array $userLangData;
 
     public function __construct(array $defaultLangData, array $userLangData){
         $this->defaultLangData = $defaultLangData;

@@ -11,14 +11,14 @@ use pocketmine\math\Vector3;
 class PartialPortalSelection{
 
     /** @var null|Vector3 */
-    protected $firstBlock;
+    protected ?Vector3 $firstBlock;
     /** @var null|string */
-    private $firstBlockFolderName;
+    private ?string $firstBlockFolderName;
 
     /** @var null|Vector3 */
-    protected $secondBlock;
+    protected ?Vector3 $secondBlock;
     /** @var null|string */
-    private $secondBlockFolderName;
+    private ?string $secondBlockFolderName;
 
     public function __construct(?Vector3 $firstBlock, ?string $firstBlockFolderName, ?Vector3 $secondBlock, ?string $secondBlockFolderName){
         $this->firstBlock = $firstBlock;

@@ -7,25 +7,25 @@ use luca28pet\PortalsPE\flag\FlagsManager;
 use luca28pet\PortalsPE\selection\CompletePortalSelection;
 use luca28pet\PortalsPE\utils\LookingVector3;
 use luca28pet\PortalsPE\utils\PortalResponse;
-use pocketmine\command\ConsoleCommandSender;
-use pocketmine\level\Location;
-use pocketmine\level\Position;
-use pocketmine\Player;
+use pocketmine\console\ConsoleCommandSender;
+use pocketmine\entity\Location;
+use pocketmine\world\Position;
+use pocketmine\player\Player;
 use pocketmine\Server;
 use function str_replace;
 
 class Portal{
 
-    /** @var string */
-    private $name;
-    /** @var CompletePortalSelection */
-    private $selection;
-    /** @var LookingVector3 */
-    private $destination;
-    /** @var string */
-    private $destinationFolderName;
-    /** @var FlagsManager */
-    private $flagsManager;
+    /** @var string $name */
+    private string $name;
+    /** @var CompletePortalSelection $selection */
+    private CompletePortalSelection $selection;
+    /** @var LookingVector3 $destination */
+    private LookingVector3 $destination;
+    /** @var string $destinationFolderName */
+    private string $destinationFolderName;
+    /** @var FlagsManager $flagsManager */
+    private FlagsManager $flagsManager;
 
     public function __construct(string $name, CompletePortalSelection $selection, LookingVector3 $destination, string $destinationFolderName, array $flags){
         $this->name = $name;
@@ -76,7 +76,7 @@ class Portal{
     }
 
     public function autoloadDestination(Server $server) : bool{
-        return $server->loadLevel($this->destinationFolderName);
+        return $server->getWorldManager()->loadWorld($this->destinationFolderName);
     }
 
     public function isInside(Position $position) : bool{
@@ -89,7 +89,7 @@ class Portal{
         }
 
         if($this->flagsManager->getTeleport()){
-            $level = $player->getServer()->getLevelByName($this->destinationFolderName);
+            $level = $player->getServer()->getWorldManager()->getWorldByName($this->destinationFolderName);
             if($level === null){
                 if($this->flagsManager->getAutoLoad()){
                     if(!$this->autoloadDestination($player->getServer())){
@@ -98,17 +98,19 @@ class Portal{
                 }else{
                     return PortalResponse::WORLD_NOT_LOADED();
                 }
-                $level = $player->getServer()->getLevelByName($this->destinationFolderName);
+                $level = $player->getServer()->getWorldManager()->getWorldByName($this->destinationFolderName);
             }
-            $player->teleport(new Location($this->destination->x, $this->destination->y, $this->destination->z, $this->destination->yaw, $this->destination->pitch, $level));
+            $player->teleport(new Location($this->destination->x, $this->destination->y, $this->destination->z, $level, $this->destination->yaw, $this->destination->pitch));
             foreach($this->flagsManager->getCommands() as $cmd){
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace(['{player}', '{portal}'], [$player->getName(), $this->name], $cmd));
+                //$player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), str_replace(['{player}', '{portal}'], [$player->getName(), $this->name], $cmd));
+                $player->getServer()->dispatchCommand($player, str_replace(['{player}', '{portal}'], [$player->getName(), $this->name], $cmd));
             }
             return PortalResponse::SUCCESS_TP();
         }
 
         foreach($this->flagsManager->getCommands() as $cmd){
-            $player->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace(['{player}', '{portal}'], [$player->getName(), $this->name], $cmd));
+            //$player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), str_replace(['{player}', '{portal}'], [$player->getName(), $this->name], $cmd));
+            $player->getServer()->dispatchCommand($player, str_replace(['{player}', '{portal}'], [$player->getName(), $this->name], $cmd));
         }
         return PortalResponse::SUCCESS_NO_TP();
     }

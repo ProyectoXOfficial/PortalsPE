@@ -7,10 +7,10 @@ use pocketmine\math\Vector3;
 
 class LookingVector3 extends Vector3{
 
-    /** @var float */
-    public $yaw;
-    /** @var float */
-    public $pitch;
+    /** @var float $yaw */
+    public float $yaw;
+    /** @var float $pitch */
+    public float $pitch;
 
     /**
      * @param int|float   $x

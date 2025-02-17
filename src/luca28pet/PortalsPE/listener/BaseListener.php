@@ -8,8 +8,8 @@ use pocketmine\event\Listener;
 
 class BaseListener implements Listener{
 
-    /** @var Main */
-    protected $plugin;
+    /** @var Main $plugin */
+    protected Main $plugin;
 
     public function __construct(Main $plugin){
         $this->plugin = $plugin;

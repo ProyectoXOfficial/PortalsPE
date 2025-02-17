@@ -22,8 +22,8 @@ class PortalResponse{
     public const NO_PERM = 2;
     public const WORLD_NOT_LOADED = 3;
 
-    /** @var int */
-    private $result;
+    /** @var int $result */
+    private int $result;
 
     public static function init() : void{
         $ref = new ReflectionClass(__CLASS__);

@@ -15,8 +15,8 @@ class FlagsManager{
         'commands' => [],
     ];
 
-    /** @var array */
-    private $flags;
+    /** @var array $flags */
+    private array $flags;
 
     public function __construct(array $data){
         $this->flags = [];

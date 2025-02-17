@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace luca28pet\PortalsPE\selection;
 
-use pocketmine\level\Position;
+use pocketmine\world\Position;
 use pocketmine\math\Vector3;
 use function max;
 use function min;
 
 class CompletePortalSelection{
 
-    /** @var Vector3 */
-    protected $firstBlock;
-    /** @var Vector3 */
-    protected $secondBlock;
-    /** @var string */
-    private $selectionFolderName;
+    /** @var Vector3 $firstBlock */
+    protected Vector3 $firstBlock;
+    /** @var Vector3 $secondBlock */
+    protected Vector3 $secondBlock;
+    /** @var string $selectionFolderName */
+    private string $selectionFolderName;
 
     public function __construct(Vector3 $firstBlock, Vector3 $secondBlock, string $selectionFolderName){
         $this->firstBlock = $firstBlock;
@@ -48,9 +48,9 @@ class CompletePortalSelection{
     }
 
     public function isInside(Position $position) : bool{
-        $position = Position::fromObject($position->floor(), $position->getLevel());
+        $position = Position::fromObject($position->floor(), $position->getWorld());
         /** @noinspection NullPointerExceptionInspection */
-        return $position->isValid() && $position->getLevel()->getFolderName() === $this->selectionFolderName &&
+        return $position->isValid() && $position->getWorld()->getFolderName() === $this->selectionFolderName &&
             $position->x >= min($this->firstBlock->x, $this->secondBlock->x) && $position->x <= max($this->firstBlock->x, $this->secondBlock->x) &&
             $position->y >= min($this->firstBlock->y, $this->secondBlock->y) && $position->y <= max($this->firstBlock->y, $this->secondBlock->y) &&
             $position->z >= min($this->firstBlock->z, $this->secondBlock->z) && $position->z <= max($this->firstBlock->z, $this->secondBlock->z);

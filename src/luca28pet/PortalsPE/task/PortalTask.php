@@ -8,14 +8,14 @@ use pocketmine\scheduler\Task;
 
 class PortalTask extends Task{
 
-    /** @var Main */
-    private $plugin;
+    /** @var Main $plugin */
+    private Main $plugin;
 
     public function __construct(Main $plugin){
         $this->plugin = $plugin;
     }
 
-    public function onRun(int $currentTick) : void{
+    public function onRun() : void{
         foreach($this->plugin->getServer()->getOnlinePlayers() as $p){
             $this->plugin->checkPortal($p);
         }
